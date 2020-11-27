@@ -3,6 +3,8 @@ var quantity = [];
 var individualPrices = [];
 var total_amount = 0.0;
 var remove = "remove";
+/*adds the product name, quantity, and total price in a row. *note +1 because first row is the
+headers*/
 function addProductToRow(id) {
   var table = document.getElementById("myTable");
   var name = $(".name")[id].innerHTML;
@@ -16,7 +18,9 @@ function addProductToRow(id) {
     var cell2 = row.deleteCell(1);
     var cell2 = row.insertCell(1);
     cell2.innerHTML +=
-      "<input type='number' min='1' max='10' onchange='quantityChanged(this.value, index)' name='points' step='1' value='" +
+      "<input type='number' min='1' max='10' onchange='addOrRemoveQuantity(this.value, this.name)' name='" +
+      name +
+      "' step='1' value='" +
       quantity[index] +
       "'>";
     ("</input>");
@@ -35,7 +39,9 @@ function addProductToRow(id) {
     var index = names.indexOf(name);
     cell1.innerHTML = name;
     cell2.innerHTML +=
-      "<input type='number' min='1' max='10' onchange='quantityChanged(this.value, index)' name='points' step='1' value='" +
+      "<input type='number' min='1' max='10' onchange='addOrRemoveQuantity(this.value, this.name)' name='" +
+      name +
+      "' step='1' value='" +
       quantity[index] +
       "'>";
     ("</input>");
@@ -49,13 +55,42 @@ function addProductToRow(id) {
   getTotalProductQuantity();
   $(".total").text("₱" + total_amount);
 }
-async function getTotalProductQuantity() {
+//presents how many unique items are in the cart
+function getTotalProductQuantity() {
   $(".cart-count").text(names.length);
 }
-function quantityChanged(val, index) {
+/*this checks if the user clicked the increment or decrement button in the input area for the 
+quantity*/
+function addOrRemoveQuantity(val, name) {
+  var index = names.indexOf(name);
   alert("Quantity has changed. The new Quantity is: " + val);
-  alert(index);
+  if (val > quantity[index]) {
+    individualPrices[index] += individualPrices[index] / quantity[index];
+    quantity[index] += 1;
+    var row = document.getElementById("myTable").rows[index + 1];
+    var cell3 = row.deleteCell(2);
+    var cell3 = row.insertCell(2);
+    cell3.innerHTML = individualPrices[index];
+    total_amount = 0.0;
+    for (var i = 0; i < individualPrices.length; i++) {
+      total_amount += individualPrices[i];
+    }
+    $(".total").text("₱" + total_amount);
+  } else if (val < quantity[index]) {
+    individualPrices[index] -= individualPrices[index] / quantity[index];
+    quantity[index] -= 1;
+    var row = document.getElementById("myTable").rows[index + 1];
+    var cell3 = row.deleteCell(2);
+    var cell3 = row.insertCell(2);
+    cell3.innerHTML = individualPrices[index];
+    total_amount = 0.0;
+    for (var i = 0; i < individualPrices.length; i++) {
+      total_amount += individualPrices[i];
+    }
+    $(".total").text("₱" + total_amount);
+  }
 }
+//removes cart item completely along with its total price
 function removeItem(r) {
   var i = r.parentNode.parentNode.rowIndex;
   total_amount -= individualPrices[i - 1];

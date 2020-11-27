@@ -1,0 +1,32 @@
+[
+    {
+        "id": 0,
+        "name": "Jacket 1",
+        "price": 600,
+        "old_price": null,
+        "desc": "This is Jacket 1",
+        "rate": 4.9,
+        "sku": 1234567891,
+        "img": "images/jacket1.jpg"
+    },
+    {
+        "id": 1,
+        "name": "Jacket 2",
+        "price": 700,
+        "old_price": 800,
+        "desc": "This is Jacket 2",
+        "rate": 4.8,
+        "sku": 1234567892,
+        "img": "images/jacket2.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Jacket 3",
+        "price": 800,
+        "old_price": 900,
+        "desc": "This is Jacket 3",
+        "rate": 4.7,
+        "sku": 1234567893,
+        "img": "images/jacket3.jpg"
+    }
+]
